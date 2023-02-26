@@ -61,6 +61,12 @@
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
 
+        <!-- 店铺-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>chen-store</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

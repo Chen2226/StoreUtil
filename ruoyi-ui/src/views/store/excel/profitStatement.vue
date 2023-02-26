@@ -6,7 +6,7 @@
         <span class="custom-tree-node" slot-scope="{ node, data }">
           <span>{{ node.label }}</span>
           <span>
-            <span>预览</span>
+            <span @click="Attest()">预览</span>
             <span>删除</span>
           </span>
         </span>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { test } from "@/api/store/excel";
 export default {
   name: "profitStatement",
   data () {
@@ -32,8 +33,15 @@ export default {
       data: JSON.parse(JSON.stringify(data))
     }
   },
-  methods: {
+  mounted () {
     
+  },
+  methods: {
+    Attest() {
+      test().then(res => {
+        console.log(res);
+      });
+    }
   }
 }
 </script>
