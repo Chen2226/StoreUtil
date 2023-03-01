@@ -1,16 +1,8 @@
 <template>
-  <div class="custom-tree-container">
-    <div class="block">
-      <p>使用 scoped slot</p>
-      <el-tree :data="data" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false">
-        <span class="custom-tree-node" slot-scope="{ node, data }">
-          <span>{{ node.label }}</span>
-          <span>
-            <span @click="Attest()">预览</span>
-            <span>删除</span>
-          </span>
-        </span>
-      </el-tree>
+  <div class="page">
+    <div>预留空间</div>
+    <div class="content">
+      <div class="content-folder"></div>
     </div>
   </div>
 </template>
@@ -19,22 +11,14 @@
 import { test } from "@/api/store/excel";
 export default {
   name: "profitStatement",
-  data () {
-    const data = [{
-      id: 1,
-      label: '一级 1',
-      children: [{
-        id: 4,
-        label: '二级 1-1'
-      }]
-    }];
+  data() {
+
     return {
-      data: JSON.parse(JSON.stringify(data)),
-      data: JSON.parse(JSON.stringify(data))
-    }
+
+    };
   },
-  mounted () {
-    
+  mounted() {
+
   },
   methods: {
     Attest() {
@@ -46,13 +30,22 @@ export default {
 }
 </script>
 
-<style>
-.custom-tree-node {
-  flex: 1;
+<style lang="scss" scoped>
+.page {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  padding: 10px;
+}
+
+.content {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 14px;
-  padding-right: 8px;
+  .content-folder{
+    width: 50px;
+    height: 50px;
+    background-image: url('../../../assets/store/folder.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
 }
 </style>
