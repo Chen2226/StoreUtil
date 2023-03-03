@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="uid"    column="uid"    />
         <result property="name"    column="name"    />
+        <result property="userName"    column="user_name"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
         <result property="platformDeduction"    column="platform_deduction"    />
@@ -27,15 +28,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectChenPlatformVo">
-        select id, uid, name, create_time, update_time, platform_deduction from chen_platform
+        select p.id, p.uid, p.name, p.create_time, p.update_time, p.platform_deduction, u.user_name from chen_platform as p left join sys_user as u on u.user_id = p.uid
     </sql>
 
     <select id="selectChenPlatformList" parameterType="ChenPlatform" resultMap="ChenPlatformResult">
         <include refid="selectChenPlatformVo"/>
         <where>  
-            <if test="uid != null "> and uid = #{uid}</if>
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="platformDeduction != null "> and platform_deduction = #{platformDeduction}</if>
+            <if test="uid != null "> and p.uid = #{uid}</if>
+            <if test="name != null  and name != ''"> and name like p.concat('%', #{name}, '%')</if>
+            <if test="platformDeduction != null "> and p.platform_deduction = #{platformDeduction}</if>
         </where>
     </select>
     

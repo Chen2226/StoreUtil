@@ -80,7 +80,7 @@
     <el-table v-loading="loading" :data="platformList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="id" />
-      <el-table-column label="归属那个用户" align="center" prop="uid" />
+      <el-table-column label="用户" align="center" prop="userName" />
       <el-table-column label="名字" align="center" prop="name" />
       <el-table-column label="平台扣费" align="center" prop="platformDeduction" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -111,8 +111,7 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改平台
-对话框 -->
+    <!-- 添加或修改平台对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="归属那个用户" prop="uid">
