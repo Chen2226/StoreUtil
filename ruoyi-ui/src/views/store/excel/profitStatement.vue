@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div>预留空间</div>
+    <div @click="Attest">预留空间</div>
     <div class="content">
       <div class="content-folder"></div>
     </div>
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { test } from "@/api/store/excel";
+import { getPlatformStoreInfo } from "@/api/store/excel";
 export default {
   name: "profitStatement",
   data() {
@@ -22,7 +22,10 @@ export default {
   },
   methods: {
     Attest() {
-      test().then(res => {
+      // test().then(res => {
+      //   console.log(res);
+      // });
+      getPlatformStoreInfo().then(res => {
         console.log(res);
       });
     }
