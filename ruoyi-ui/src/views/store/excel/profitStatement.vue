@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { getPlatformStoreInfo } from "@/api/store/excel";
 export default {
   name: "profitStatement",
   data() {
@@ -21,14 +20,7 @@ export default {
 
   },
   methods: {
-    Attest() {
-      // test().then(res => {
-      //   console.log(res);
-      // });
-      getPlatformStoreInfo().then(res => {
-        console.log(res);
-      });
-    }
+    
   }
 }
 </script>

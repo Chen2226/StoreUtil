@@ -1,40 +1,34 @@
 package com.ruoyi.store.domain;
 
-import java.math.BigDecimal;
-import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 平台
-对象 chen_platform
+ * 店铺对象 chen_store
  * 
  * @author ruoyi
  * @date 2023-03-03
  */
-public class ChenPlatform extends BaseEntity
+public class ChenStore extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** id */
     private Long id;
 
-    /** 归属那个用户 */
-    @Excel(name = "归属那个用户")
+    /** 用户id */
+    @Excel(name = "用户id")
     private Long uid;
 
-    /** 名字 */
-    @Excel(name = "名字")
+    /** 店铺名字 */
+    @Excel(name = "店铺名字")
     private String name;
 
-    /** 平台扣费 */
-    @Excel(name = "平台扣费")
-    private BigDecimal platformDeduction;
-
-    /** 店铺信息 */
-    private List<ChenStore> chenStoreList;
+    /** 平台id */
+    @Excel(name = "平台id")
+    private Long platformId;
 
     public void setId(Long id) 
     {
@@ -63,24 +57,14 @@ public class ChenPlatform extends BaseEntity
     {
         return name;
     }
-    public void setPlatformDeduction(BigDecimal platformDeduction) 
+    public void setPlatformId(Long platformId) 
     {
-        this.platformDeduction = platformDeduction;
+        this.platformId = platformId;
     }
 
-    public BigDecimal getPlatformDeduction() 
+    public Long getPlatformId() 
     {
-        return platformDeduction;
-    }
-
-    public List<ChenStore> getChenStoreList()
-    {
-        return chenStoreList;
-    }
-
-    public void setChenStoreList(List<ChenStore> chenStoreList)
-    {
-        this.chenStoreList = chenStoreList;
+        return platformId;
     }
 
     @Override
@@ -89,10 +73,9 @@ public class ChenPlatform extends BaseEntity
             .append("id", getId())
             .append("uid", getUid())
             .append("name", getName())
+            .append("platformId", getPlatformId())
             .append("createTime", getCreateTime())
             .append("updateTime", getUpdateTime())
-            .append("platformDeduction", getPlatformDeduction())
-            .append("chenStoreList", getChenStoreList())
             .toString();
     }
 }

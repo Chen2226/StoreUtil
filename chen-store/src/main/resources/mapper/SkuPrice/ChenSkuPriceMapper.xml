@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.store.mapper.ChenSkuPriceMapper">
+    
+    <resultMap type="ChenSkuPrice" id="ChenSkuPriceResult">
+        <result property="id"    column="id"    />
+        <result property="uid"    column="uid"    />
+        <result property="sku"    column="sku"    />
+        <result property="price"    column="price"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectChenSkuPriceVo">
+        select id, uid, sku, price, create_time, update_time from chen_sku_price
+    </sql>
+
+    <select id="selectChenSkuPriceList" parameterType="ChenSkuPrice" resultMap="ChenSkuPriceResult">
+        <include refid="selectChenSkuPriceVo"/>
+        <where>  
+            <if test="uid != null "> and uid = #{uid}</if>
+            <if test="sku != null  and sku != ''"> and sku = #{sku}</if>
+            <if test="price != null "> and price = #{price}</if>
+        </where>
+    </select>
+    
+    <select id="selectChenSkuPriceById" parameterType="Long" resultMap="ChenSkuPriceResult">
+        <include refid="selectChenSkuPriceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertChenSkuPrice" parameterType="ChenSkuPrice" useGeneratedKeys="true" keyProperty="id">
+        insert into chen_sku_price
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">uid,</if>
+            <if test="sku != null">sku,</if>
+            <if test="price != null">price,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">#{uid},</if>
+            <if test="sku != null">#{sku},</if>
+            <if test="price != null">#{price},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateChenSkuPrice" parameterType="ChenSkuPrice">
+        update chen_sku_price
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="uid != null">uid = #{uid},</if>
+            <if test="sku != null">sku = #{sku},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteChenSkuPriceById" parameterType="Long">
+        delete from chen_sku_price where id = #{id}
+    </delete>
+
+    <delete id="deleteChenSkuPriceByIds" parameterType="String">
+        delete from chen_sku_price where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

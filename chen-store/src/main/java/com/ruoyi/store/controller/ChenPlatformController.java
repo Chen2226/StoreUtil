@@ -2,6 +2,7 @@ package com.ruoyi.store.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,83 +23,80 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 平台Controller
- * 
- * @author chen
- * @date 2023-03-02
+ * 平台
+ * Controller
+ *
+ * @author ruoyi
+ * @date 2023-03-03
  */
 @RestController
-@RequestMapping("/platform/platformList")
-public class ChenPlatformController extends BaseController
-{
+@RequestMapping("/platform/platform")
+public class ChenPlatformController extends BaseController {
     @Autowired
     private IChenPlatformService chenPlatformService;
 
     /**
-     * 查询平台列表
+     * 查询平台
+     * 列表
      */
-    @PreAuthorize("@ss.hasPermi('platform:platformList:list')")
+    @PreAuthorize("@ss.hasPermi('platform:platform:list')")
     @GetMapping("/list")
-    public TableDataInfo list(ChenPlatform chenPlatform)
-    {
+    public TableDataInfo list(ChenPlatform chenPlatform) {
         startPage();
         List<ChenPlatform> list = chenPlatformService.selectChenPlatformList(chenPlatform);
         return getDataTable(list);
     }
 
     /**
-     * 导出平台列表
+     * 导出平台
+     * 列表
      */
-    @PreAuthorize("@ss.hasPermi('platform:platformList:export')")
+    @PreAuthorize("@ss.hasPermi('platform:platform:export')")
     @Log(title = "平台", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ChenPlatform chenPlatform)
-    {
+    public void export(HttpServletResponse response, ChenPlatform chenPlatform) {
         List<ChenPlatform> list = chenPlatformService.selectChenPlatformList(chenPlatform);
         ExcelUtil<ChenPlatform> util = new ExcelUtil<ChenPlatform>(ChenPlatform.class);
         util.exportExcel(response, list, "平台数据");
     }
 
     /**
-     * 获取平台详细信息
+     * 获取平台
+     * 详细信息
      */
-    @PreAuthorize("@ss.hasPermi('platform:platformList:query')")
+    @PreAuthorize("@ss.hasPermi('platform:platform:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return success(chenPlatformService.selectChenPlatformById(id));
     }
 
     /**
      * 新增平台
      */
-    @PreAuthorize("@ss.hasPermi('platform:platformList:add')")
-    @Log(title = "平台", businessType = BusinessType.INSERT)
+    @PreAuthorize("@ss.hasPermi('platform:platform:add')")
+    @Log(title = "平台 ", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ChenPlatform chenPlatform)
-    {
+    public AjaxResult add(@RequestBody ChenPlatform chenPlatform) {
         return toAjax(chenPlatformService.insertChenPlatform(chenPlatform));
     }
 
     /**
      * 修改平台
      */
-    @PreAuthorize("@ss.hasPermi('platform:platformList:edit')")
+    @PreAuthorize("@ss.hasPermi('platform:platform:edit')")
     @Log(title = "平台", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ChenPlatform chenPlatform)
-    {
+    public AjaxResult edit(@RequestBody ChenPlatform chenPlatform) {
         return toAjax(chenPlatformService.updateChenPlatform(chenPlatform));
     }
 
     /**
      * 删除平台
      */
-    @PreAuthorize("@ss.hasPermi('platform:platformList:remove')")
+    @PreAuthorize("@ss.hasPermi('platform:platform:remove')")
     @Log(title = "平台", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    @DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(chenPlatformService.deleteChenPlatformByIds(ids));
     }
 }
