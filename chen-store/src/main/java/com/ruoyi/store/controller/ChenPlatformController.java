@@ -26,7 +26,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 平台
  * Controller
  *
- * @author ruoyi
+ * @author cwh
  * @date 2023-03-03
  */
 @RestController

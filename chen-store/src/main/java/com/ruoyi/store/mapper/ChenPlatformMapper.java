@@ -8,7 +8,7 @@ import com.ruoyi.store.domain.ChenStore;
  * 平台
 Mapper接口
  * 
- * @author ruoyi
+ * @author cwh
  * @date 2023-03-03
  */
 public interface ChenPlatformMapper 

@@ -24,7 +24,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 /**
  * sku价格对照Controller
  * 
- * @author ruoyi
+ * @author cwh
  * @date 2023-03-03
  */
 @RestController

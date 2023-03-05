@@ -14,7 +14,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 平台
 对象 chen_platform
  * 
- * @author ruoyi
+ * @author cwh
  * @date 2023-03-03
  */
 @EqualsAndHashCode(callSuper = true)

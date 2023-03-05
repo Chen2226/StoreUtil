@@ -9,7 +9,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * sku价格对照对象 chen_sku_price
  * 
- * @author ruoyi
+ * @author cwh
  * @date 2023-03-03
  */
 public class ChenSkuPrice extends BaseEntity

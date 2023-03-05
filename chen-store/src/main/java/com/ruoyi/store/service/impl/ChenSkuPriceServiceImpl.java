@@ -11,7 +11,7 @@ import com.ruoyi.store.service.IChenSkuPriceService;
 /**
  * sku价格对照Service业务层处理
  * 
- * @author ruoyi
+ * @author cwh
  * @date 2023-03-03
  */
 @Service

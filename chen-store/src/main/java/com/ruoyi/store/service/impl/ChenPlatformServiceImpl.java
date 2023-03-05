@@ -16,7 +16,7 @@ import com.ruoyi.store.service.IChenPlatformService;
  * 平台
 Service业务层处理
  * 
- * @author ruoyi
+ * @author cwh
  * @date 2023-03-03
  */
 @Service

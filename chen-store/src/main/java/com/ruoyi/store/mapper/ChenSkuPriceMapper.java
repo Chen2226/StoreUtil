@@ -6,7 +6,7 @@ import com.ruoyi.store.domain.ChenSkuPrice;
 /**
  * sku价格对照Mapper接口
  * 
- * @author ruoyi
+ * @author cwh
  * @date 2023-03-03
  */
 public interface ChenSkuPriceMapper 

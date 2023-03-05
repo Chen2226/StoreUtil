@@ -7,7 +7,7 @@ import com.ruoyi.store.domain.ChenPlatform;
  * 平台
 Service接口
  * 
- * @author ruoyi
+ * @author cwh
  * @date 2023-03-03
  */
 public interface IChenPlatformService 

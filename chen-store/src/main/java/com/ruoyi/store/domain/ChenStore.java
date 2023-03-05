@@ -8,7 +8,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 店铺对象 chen_store
  * 
- * @author ruoyi
+ * @author cwh
  * @date 2023-03-03
  */
 public class ChenStore extends BaseEntity
