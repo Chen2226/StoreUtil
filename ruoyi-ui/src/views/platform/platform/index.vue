@@ -72,11 +72,11 @@
           @selection-change="handleChenStoreSelectionChange" ref="chenStore">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column label="序号" align="center" prop="index" width="50" />
-          <el-table-column label="用户id" prop="uid" width="150">
+          <!-- <el-table-column label="用户id" prop="uid" width="150">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.uid" placeholder="请输入用户id" />
+              <el-input v-model="scope.row.uid" placeholder="请输入用户id" :disabled="true" />
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column label="店铺名字" prop="name" width="150">
             <template slot-scope="scope">
               <el-input v-model="scope.row.name" placeholder="请输入店铺名字" />
@@ -126,6 +126,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         name: null,
+        uid: this.$store.state.user.user_id,
       },
       // 表单参数
       form: {},
@@ -156,7 +157,7 @@ export default {
     reset() {
       this.form = {
         id: null,
-        uid: null,
+        uid: this.$store.state.user.user_id,
         name: null,
         createTime: null,
         updateTime: null,

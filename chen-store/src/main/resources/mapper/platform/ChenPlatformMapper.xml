@@ -34,8 +34,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectChenPlatformList" parameterType="ChenPlatform" resultMap="ChenPlatformResult">
         <include refid="selectChenPlatformVo"/>
         <where>
+            <if test="uid != null ">p.uid = #{uid}</if>
             <if test="name != null  and name != ''">
-                p.name like concat('%', #{name}, '%')
+              and p.name like concat('%', #{name}, '%')
             </if>
         </where>
 

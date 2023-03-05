@@ -1,9 +1,9 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="用户id" prop="uid">
+      <!-- <el-form-item label="用户id" prop="uid">
         <el-input v-model="queryParams.uid" placeholder="请输入用户id" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="sku" prop="sku">
         <el-input v-model="queryParams.sku" placeholder="请输入sku" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
@@ -39,7 +39,7 @@
     <el-table v-loading="loading" :data="SkuPriceList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="id" />
-      <el-table-column label="用户id" align="center" prop="uid" />
+      <!-- <el-table-column label="用户id" align="center" prop="uid" /> -->
       <el-table-column label="sku" align="center" prop="sku" />
       <el-table-column label="price" align="center" prop="price" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -58,9 +58,9 @@
     <!-- 添加或修改sku价格对照对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="用户id" prop="uid">
-          <el-input v-model="form.uid" placeholder="请输入用户id" />
-        </el-form-item>
+        <!-- <el-form-item label="用户id" prop="uid">
+          <el-input v-model="form.uid" placeholder="请输入用户id" disabled="true"/>
+        </el-form-item> -->
         <el-form-item label="sku" prop="sku">
           <el-input v-model="form.sku" placeholder="请输入sku" />
         </el-form-item>
@@ -105,7 +105,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        uid: null,
+        uid: this.$store.state.user.user_id,
         sku: null,
         price: null,
       },
@@ -138,7 +138,7 @@ export default {
     reset() {
       this.form = {
         id: null,
-        uid: null,
+        uid: this.$store.state.user.user_id,
         sku: null,
         price: null,
         createTime: null,

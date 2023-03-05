@@ -19,9 +19,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectChenSkuPriceList" parameterType="ChenSkuPrice" resultMap="ChenSkuPriceResult">
         <include refid="selectChenSkuPriceVo"/>
-        <where>  
-            <if test="uid != null "> and uid = #{uid}</if>
-            <if test="sku != null  and sku != ''"> and sku = #{sku}</if>
+        <where>
+            <if test="uid != null ">uid = #{uid}</if>
+            <if test="sku != null  and sku != ''">sku like concat('%', #{sku}, '%')</if>
             <if test="price != null "> and price = #{price}</if>
         </where>
     </select>
