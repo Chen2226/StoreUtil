@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.store.mapper.StoreExpressMapper">
+    
+    <resultMap type="StoreExpress" id="StoreExpressResult">
+        <result property="id"    column="id"    />
+        <result property="uid"    column="uid"    />
+        <result property="name"    column="name"    />
+        <result property="platformId"    column="platform_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap id="StoreExpressChenStoreExpressResult" type="StoreExpress" extends="StoreExpressResult">
+        <collection property="chenStoreExpressList" notNullColumn="sub_id" javaType="java.util.List" resultMap="ChenStoreExpressResult" />
+    </resultMap>
+
+    <resultMap type="ChenStoreExpress" id="ChenStoreExpressResult">
+        <result property="id"    column="sub_id"    />
+        <result property="storeId"    column="sub_store_id"    />
+        <result property="name"    column="sub_name"    />
+        <result property="price"    column="sub_price"    />
+        <result property="createTime"    column="sub_create_time"    />
+        <result property="updateTime"    column="sub_update_time"    />
+    </resultMap>
+
+    <sql id="selectStoreExpressVo">
+        select id, uid, name, platform_id, create_time, update_time from chen_store
+    </sql>
+
+    <select id="selectStoreExpressList" parameterType="StoreExpress" resultMap="StoreExpressResult">
+        <include refid="selectStoreExpressVo"/>
+        <where>  
+            <if test="uid != null "> and uid = #{uid}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="platformId != null "> and platform_id = #{platformId}</if>
+        </where>
+    </select>
+    
+    <select id="selectStoreExpressById" parameterType="Long" resultMap="StoreExpressChenStoreExpressResult">
+        select a.id, a.uid, a.name, a.platform_id, a.create_time, a.update_time,
+ b.id as sub_id, b.store_id as sub_store_id, b.name as sub_name, b.price as sub_price, b.create_time as sub_create_time, b.update_time as sub_update_time
+        from chen_store a
+        left join chen_store_express b on b.store_id = a.id
+        where a.id = #{id}
+    </select>
+        
+    <insert id="insertStoreExpress" parameterType="StoreExpress" useGeneratedKeys="true" keyProperty="id">
+        insert into chen_store
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">uid,</if>
+            <if test="name != null">name,</if>
+            <if test="platformId != null">platform_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">#{uid},</if>
+            <if test="name != null">#{name},</if>
+            <if test="platformId != null">#{platformId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStoreExpress" parameterType="StoreExpress">
+        update chen_store
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="uid != null">uid = #{uid},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="platformId != null">platform_id = #{platformId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStoreExpressById" parameterType="Long">
+        delete from chen_store where id = #{id}
+    </delete>
+
+    <delete id="deleteStoreExpressByIds" parameterType="String">
+        delete from chen_store where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteChenStoreExpressByStoreIds" parameterType="String">
+        delete from chen_store_express where store_id in 
+        <foreach item="storeId" collection="array" open="(" separator="," close=")">
+            #{storeId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteChenStoreExpressByStoreId" parameterType="Long">
+        delete from chen_store_express where store_id = #{storeId}
+    </delete>
+
+    <insert id="batchChenStoreExpress">
+        insert into chen_store_express( id, store_id, name, price, create_time, update_time) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.storeId}, #{item.name}, #{item.price}, #{item.createTime}, #{item.updateTime})
+        </foreach>
+    </insert>
+</mapper>
