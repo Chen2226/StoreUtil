@@ -1,7 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-
       <el-form-item label="名字" prop="name">
         <el-input v-model="queryParams.name" placeholder="请输入名字" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
@@ -24,10 +23,10 @@
         <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
           v-hasPermi="['platform:platform:remove']">删除</el-button>
       </el-col>
-      <el-col :span="1.5">
+      <!-- <el-col :span="1.5">
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
           v-hasPermi="['platform:platform:export']">导出</el-button>
-      </el-col>
+      </el-col> -->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -36,11 +35,11 @@
       <el-table-column label="id" align="center" prop="id" />
       <el-table-column label="用户" align="center" prop="userName" />
       <el-table-column label="名字" align="center" prop="name" />
-      <el-table-column label="平台扣费" align="center" prop="platformDeduction" />
+      <el-table-column label="平台扣费（%）" align="center" prop="platformDeduction" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['platform:platform:edit']">修改</el-button>
+            v-hasPermi="['platform:platform:edit']">设置平台-店铺</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
             v-hasPermi="['platform:platform:remove']">删除</el-button>
         </template>
@@ -52,11 +51,11 @@
 
     <!-- 添加或修改平台对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="90px">
         <el-form-item label="名字" prop="name">
           <el-input v-model="form.name" placeholder="请输入名字" />
         </el-form-item>
-        <el-form-item label="平台扣费" prop="platformDeduction">
+        <el-form-item label="平台扣费(%)" prop="platformDeduction">
           <el-input v-model="form.platformDeduction" placeholder="请输入平台扣费" />
         </el-form-item>
         <el-divider content-position="center">店铺信息</el-divider>
@@ -162,7 +161,6 @@ export default {
         name: null,
         createTime: null,
         updateTime: null,
-        platformDeduction: null
       };
       this.chenStoreList = [];
       this.resetForm("form");

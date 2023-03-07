@@ -1,14 +1,13 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="用户id" prop="uid">
-        <el-input v-model="queryParams.uid" placeholder="请输入用户id" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
       <el-form-item label="店铺名字" prop="name">
         <el-input v-model="queryParams.name" placeholder="请输入店铺名字" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="平台id" prop="platformId">
-        <el-input v-model="queryParams.platformId" placeholder="请输入平台id" clearable @keyup.enter.native="handleQuery" />
+      <el-form-item label="平台" prop="platformId">
+        <el-select v-model="queryParams.platformId" placeholder="请选择平台" clearable @change="handleQuery">
+          <el-option v-for="item in platformList" :key="item.id" :label="item.name" :value="item.id" />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -17,37 +16,37 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
+      <!-- <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
           v-hasPermi="['store_express:StoreExpress:add']">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
+      </el-col> -->
+      <!-- <el-col :span="1.5">
         <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
           v-hasPermi="['store_express:StoreExpress:edit']">修改</el-button>
-      </el-col>
+      </el-col> -->
       <el-col :span="1.5">
         <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
           v-hasPermi="['store_express:StoreExpress:remove']">删除</el-button>
       </el-col>
-      <el-col :span="1.5">
+      <!-- <el-col :span="1.5">
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
           v-hasPermi="['store_express:StoreExpress:export']">导出</el-button>
-      </el-col>
+      </el-col> -->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="StoreExpressList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="id" />
-      <el-table-column label="用户id" align="center" prop="uid" />
+      <!-- <el-table-column label="用户id" align="center" prop="uid" /> -->
       <el-table-column label="店铺名字" align="center" prop="name" />
-      <el-table-column label="平台id" align="center" prop="platformId" />
+      <!-- <el-table-column label="平台id" align="center" prop="platformId" /> -->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['store_express:StoreExpress:edit']">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['store_express:StoreExpress:remove']">删除</el-button>
+            v-hasPermi="['store_express:StoreExpress:edit']">设置店铺快递费用</el-button>
+          <!-- <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
+            v-hasPermi="['store_express:StoreExpress:remove']">删除</el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -58,15 +57,15 @@
     <!-- 添加或修改店铺-快递费用对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="用户id" prop="uid">
+        <!-- <el-form-item label="用户id" prop="uid">
           <el-input v-model="form.uid" placeholder="请输入用户id" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="店铺名字" prop="name">
           <el-input v-model="form.name" placeholder="请输入店铺名字" />
         </el-form-item>
-        <el-form-item label="平台id" prop="platformId">
+        <!-- <el-form-item label="平台id" prop="platformId">
           <el-input v-model="form.platformId" placeholder="请输入平台id" />
-        </el-form-item>
+        </el-form-item> -->
         <el-divider content-position="center">快递信息</el-divider>
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
@@ -103,7 +102,7 @@
 
 <script>
 import { listStoreExpress, getStoreExpress, delStoreExpress, addStoreExpress, updateStoreExpress } from "@/api/store_express/StoreExpress";
-
+import { listPlatform } from "@/api/platform/platform";
 export default {
   name: "StoreExpress",
   data() {
@@ -124,6 +123,8 @@ export default {
       total: 0,
       // 店铺-快递费用表格数据
       StoreExpressList: [],
+      //平台列表
+      platformList: [],
       // 快递表格数据
       chenStoreExpressList: [],
       // 弹出层标题
@@ -134,9 +135,8 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        uid: null,
+        uid: this.$store.state.user.user_id,
         name: null,
-        platformId: null,
       },
       // 表单参数
       form: {},
@@ -147,8 +147,21 @@ export default {
   },
   created() {
     this.getList();
+    this.getPlatform();
   },
   methods: {
+    /**
+     * 查询平台
+     */
+    getPlatform() {
+      listPlatform({
+        pageNum: 1,
+        pageSize: 1000,
+        uid: this.$store.state.user.user_id,
+      }).then(response => {
+        this.platformList = response.rows;
+      });
+    },
     /** 查询店铺-快递费用列表 */
     getList() {
       this.loading = true;
@@ -167,9 +180,8 @@ export default {
     reset() {
       this.form = {
         id: null,
-        uid: null,
+        uid: this.$store.state.user.user_id,
         name: null,
-        platformId: null,
         createTime: null,
         updateTime: null
       };
