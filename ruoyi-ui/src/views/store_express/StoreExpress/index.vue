@@ -25,6 +25,10 @@
           v-hasPermi="['store_express:StoreExpress:edit']">修改</el-button>
       </el-col> -->
       <el-col :span="1.5">
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="addStoreExpress"
+          v-hasPermi="['store_express:StoreExpress:addStoreExpress']">一键设置店铺快递</el-button>
+      </el-col>
+      <el-col :span="1.5">
         <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
           v-hasPermi="['store_express:StoreExpress:remove']">删除</el-button>
       </el-col>
@@ -53,6 +57,41 @@
 
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
+
+    <!-- 一键设置店铺快递 -->
+    <el-dialog :title="一键设置店铺快递" :visible.sync="openSet" width="500px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-divider content-position="center">快递信息</el-divider>
+        <el-row :gutter="10" class="mb8">
+          <el-col :span="1.5">
+            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddChenStoreExpress">添加</el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button type="danger" icon="el-icon-delete" size="mini"
+              @click="handleDeleteChenStoreExpress">删除</el-button>
+          </el-col>
+        </el-row>
+        <el-table :data="chenStoreExpressList" :row-class-name="rowChenStoreExpressIndex"
+          @selection-change="handleChenStoreExpressSelectionChange" ref="chenStoreExpress">
+          <el-table-column type="selection" width="50" align="center" />
+          <el-table-column label="序号" align="center" prop="index" width="50" />
+          <el-table-column label="快递名" prop="name" width="150">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.name" placeholder="请输入快递名" />
+            </template>
+          </el-table-column>
+          <el-table-column label="单个包裹价格" prop="price" width="150">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.price" placeholder="请输入单个包裹价格" />
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="">确 定</el-button>
+        <el-button @click="">取 消</el-button>
+      </div>
+    </el-dialog>
 
     <!-- 添加或修改店铺-快递费用对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -138,6 +177,8 @@ export default {
         uid: this.$store.state.user.user_id,
         name: null,
       },
+      // 是否显示一键设置快递弹出层
+      openSet: false,
       // 表单参数
       form: {},
       // 表单校验
@@ -150,6 +191,12 @@ export default {
     this.getPlatform();
   },
   methods: {
+    /**
+     * openSet显示弹出层
+     */
+    addStoreExpress() {
+      this.openSet = true;
+    },
     /**
      * 查询平台
      */
